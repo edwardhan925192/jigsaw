@@ -1,7 +1,7 @@
 # configs usage 
 ```markdown
 
-from jigsaw.models.jigsaw_swin_pretrained.configs.configs import get_config
+from jsp.configs.configs import get_config
 
 # -- what it does 
 def get_config(args):    
