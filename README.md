@@ -4,5 +4,5 @@
 ```markdown
 !git clone 'https://github.com/edwardhan925192/jigsaw.git'
 %cd jigsaw
-import 
+import models.jigsaw_swin_pretrained as jsp
 ```
