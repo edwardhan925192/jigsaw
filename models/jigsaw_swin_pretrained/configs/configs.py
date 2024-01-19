@@ -34,7 +34,7 @@ _C.DATA.NUM_WORKERS = 8
 # [SimMIM] Mask patch size for MaskGenerator
 _C.DATA.MASK_PATCH_SIZE = 32
 # [SimMIM] Mask ratio for MaskGenerator
-_C.DATA.MASK_RATIO = 0.6
+_C.DATA.MASK_RATIO = 0.0
 
 # -----------------------------------------------------------------------------
 # Model settings
