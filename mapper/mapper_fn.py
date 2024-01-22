@@ -1,3 +1,7 @@
+import pandas as pd
+from collections import Counter
+from tqdm import tqdm
+
 def generate_sequence(start_number):
     sequence = []
     for i in range(6):  # Repeat for 6 rows
@@ -32,3 +36,42 @@ def convert_4x4_to_24x24_list(permutation_4x4):
                     grid_24x24[index] = value
 
     return grid_24x24
+
+
+def map_and_assign_rowwise(df_A, df_B, mapper):
+    # Iterate over each row
+    for idx in tqdm(range(len(df_A)), desc="Processing Rows"):
+        for key, indices in mapper.items():            
+            values = df_A.iloc[idx, indices].values            
+            most_common_value, _ = Counter(values).most_common(1)[0]            
+            df_B.at[idx, key] = most_common_value
+
+
+def mapper_main(preds):
+
+    # -- finding max index 
+    max_column_indices = preds.idxmax(axis=1) + 1
+    chunk_size = 576
+    reshaped_array = max_column_indices.values.reshape(-1, chunk_size)
+    new_df = pd.DataFrame(reshaped_array)
+    new_df.columns = range(1, chunk_size + 1)
+
+    # -- dataframe b
+    num_rows = 59961
+    num_cols = 16
+
+    column_names = [str(i) for i in range(1, num_cols + 1)]
+    df = pd.DataFrame(0, index=range(num_rows), columns=column_names)
+
+    # -- making mapper 
+    mapper = create_mapping(True)
+    map_576_to_16 = {}
+
+    # Mapping 24 x 24 to 4 x 4
+    for i in range(1, 17):
+        map_576_to_16[i] = generate_sequence(mapper[i])
+
+    map_and_assign_rowwise(new_df, df, mapper)
+
+    return df 
+
