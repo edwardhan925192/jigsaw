@@ -1,5 +1,6 @@
 import random
 import numpy as np 
+import cv2
 
 def shuffle_image(image):
         c, h, w = image.shape
