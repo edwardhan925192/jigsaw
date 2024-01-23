@@ -1,4 +1,4 @@
 # mapper main 
 ```markdown
-mapper main make everything into a single function
+24 x 24 pred into 4 x 4 
 ```
