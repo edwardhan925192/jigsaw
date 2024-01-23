@@ -11,6 +11,12 @@ os.makedirs(extract_to_directory, exist_ok=True)
 with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
     zip_ref.extractall(extract_to_directory)
 
+# ==================== UNZIPPING FIRST THREE ========================= #
+with zipfile.ZipFile('path/to/your/file.zip', 'r') as zip_ref:
+    file_list = zip_ref.namelist()[:3]  # Get the first three files
+    for file in file_list:
+        zip_ref.extract(file, 'path/to/extract/to')
+
 
 # ==================== SAVING ========================= #
 zip_path = os.path.join(save_dir, zip_name)
