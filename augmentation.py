@@ -43,3 +43,11 @@ def non_upscaling_enhancement(image_path):
     img = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
     enhanced_img = enhancer.enhance(img, outscale=1)
     return enhanced_img
+
+
+
+# -- edge sharpening
+def unsharp_mask(image, sigma=1.0, strength=1.5):
+    blurred = cv2.GaussianBlur(image, (0, 0), sigma)
+    sharpened = cv2.addWeighted(image, 1.0 + strength, blurred, -strength, 0)
+    return sharpened
