@@ -15,3 +15,8 @@ permute_to_original --> permuting shuffled img to get original img
 shuffle --> shuffling original image
 submission --> submission code
 ```
+
+# zip functions
+```markdown
+this fns include unzipping, zipping, and moving zipfile
+```
