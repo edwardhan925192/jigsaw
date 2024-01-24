@@ -60,7 +60,6 @@ import os
 import cv2
 from tqdm import tqdm
 
-# ================================== get folder for original image ==================================  # 
 # -- configs
 zip_file_path = '/content/drive/MyDrive/jigsaw puzzle/shuffled_ver1.zip'
 extract_to_directory = '/content/pre_augmentation'
@@ -75,7 +74,6 @@ os.makedirs(extract_to_directory, exist_ok=True)
 with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
     zip_ref.extractall(extract_to_directory)
 
-# ================================== code function for converting ==================================  # 
 folder_path = f'/content/{pre_augmentation}'
 
 image_paths = []
@@ -92,7 +90,7 @@ for (img_path, img_name) in tqdm.tqdm(image_paths, desc="Processing images"):
   hsv = Image.fromarray(hsv)  
   hsv.save(f'/content/{post_augmentation}/hsv_{img_name}')  
 
-# ================================== zip it  ==================================  # 
+# -- zip it 
 zip_path = os.path.join(save_dir, zip_name)
 with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
     for root, _, files in os.walk(save_dir):
@@ -103,6 +101,6 @@ with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
                 zipf.write(file_path, os.path.relpath(file_path, save_dir))
                 os.remove(file_path)  # Delete the file after adding it to the zip
 
-# ================================== move  ==================================  # 
+# -- move
 import shutil
 shutil.copy(f"{save_dir}/{zip_name}", "/content/drive/MyDrive/jigsaw puzzle/")
