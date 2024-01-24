@@ -2,6 +2,7 @@ import random
 import numpy as np 
 import cv2
 import os 
+from tqdm import tqdm
 
 def shuffle_image(image):
         c, h, w = image.shape
@@ -17,26 +18,31 @@ def shuffle_image(image):
         return image_shuffle, shuffle_order
 
 
+from tqdm import tqdm
+
 def shuffle_and_save_images(source_folder, save_dir, custom_word):
-    for filename in os.listdir(source_folder):
-        # Check if the file is an image
-        if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-            image_path = os.path.join(source_folder, filename)
+    # Retrieve the list of image files in the source folder
+    image_files = [f for f in os.listdir(source_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
-    # -- all I need 
-    img = cv2.imread(image_path)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Convert to RGB if needed
+    # Iterate over the image files with a progress bar
+    for filename in tqdm(image_files, desc="Processing images"):
+        image_path = os.path.join(source_folder, filename)
 
-    # Ensure the image is in C, H, W format
-    img = img.transpose(2, 0, 1)  # OpenCV uses H, W, C format
+        # -- all I need 
+        img = cv2.imread(image_path)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Convert to RGB if needed
+    
+        # Ensure the image is in C, H, W format
+        img = img.transpose(2, 0, 1)  # OpenCV uses H, W, C format
+    
+        # -- 3. shuffle, get order
+        img_shuffle, _ = shuffle_image(img)
+    
+        # -- 4. stack shuffled data such that it has data frame in the similar way of training
+        base_filename = os.path.basename(image_path)
+    
+        shuffled_filename = f'{custom_word}_{base_filename}'
+        save_path = os.path.join(save_dir, shuffled_filename)
+    
+        cv2.imwrite(save_path, img_shuffle.transpose(1, 2, 0))  # Convert back to H, W, C for saving
 
-    # -- 3. shuffle, get order
-    img_shuffle, _ = shuffle_image(img)
-
-    # -- 4. stack shuffled data such that it has data frame in the similar way of training
-    base_filename = os.path.basename(image_path)
-
-    shuffled_filename = f'{custom_word}_{base_filename}'
-    save_path = os.path.join(save_dir, shuffled_filename)
-
-    cv2.imwrite(save_path, img_shuffle.transpose(1, 2, 0))  # Convert back to H, W, C for saving
