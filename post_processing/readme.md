@@ -1,3 +1,0 @@
-# image resolution 
-```markdown
-```
